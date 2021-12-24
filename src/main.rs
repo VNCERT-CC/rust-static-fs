@@ -10,7 +10,7 @@ async fn main() -> std::io::Result<()> {
     let server = HttpServer::new(|| {
         App::new()
             .wrap(middleware::NormalizePath::new(
-                middleware::normalize::TrailingSlash::Trim,
+                middleware::normalize::TrailingSlash::MergeOnly,
             ))
             .service(
                 actix_files::Files::new("/", "./public/")
