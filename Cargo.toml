@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 actix-web = { version = "3.3" }
 actix-files = { version = "0.5" }
+lazy_static = { version = "1.4" }
