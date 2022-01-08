@@ -1,5 +1,6 @@
 # rust-static-fs
-Rust static file serve
+Rust static file serve.
+It is suitable for serving static built of Single Page Applications (SPA)
 # Usage
 ```
 ./static-fs-linux-gnu :8080
