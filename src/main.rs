@@ -118,17 +118,14 @@ async fn main() -> std::io::Result<()> {
             .service(
                 actix_files::Files::new("/", &public_folder)
                     .path_filter(move |path, _| {
-                        let ext = path.extension();
-                        if ext.is_none() {
-                            return true;
-                        }
-                        let ext = ext.unwrap().to_str().unwrap().to_lowercase();
+                        let ext = match path.extension() {
+                            Some(ext) => ext.to_str().unwrap().to_lowercase(),
+                            None => return true
+                        };
                         if is_include_exts {
-                            let include_exts = include_exts.clone();
                             return include_exts.contains(&ext);
                         }
                         if is_exclude_exts {
-                            let exclude_exts = exclude_exts.clone();
                             return !exclude_exts.contains(&ext);
                         }
                         true
