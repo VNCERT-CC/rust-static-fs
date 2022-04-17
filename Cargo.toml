@@ -6,6 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = { version = "3.3" }
-actix-files = { version = "0.5" }
+actix-web = { version = "4" }
+actix-files = { version = "0.6" }
 lazy_static = { version = "1.4" }
+clap = { version = "3" }
