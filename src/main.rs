@@ -7,6 +7,8 @@ use clap;
 use std::collections::HashSet;
 use std::env;
 use std::sync::Arc;
+use std::fs;
+use std::os::unix::fs::PermissionsExt;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -157,7 +159,11 @@ async fn main() -> std::io::Result<()> {
 
     if server_addr.starts_with("unix:") {
         #[cfg(unix)]
-        return server.bind_uds(server_addr[5..].to_string())?.run().await;
+        {
+            fs::set_permissions("/path", fs::Permissions::from_mode(0o655)).unwrap();
+            let srv = server.bind_uds(server_addr[5..].to_string())?;
+            return srv.run().await;
+        }
         #[cfg(not(unix))]
         {
             eprintln!("Unix socket file not supported on windows, fallback to tcp:8080");
