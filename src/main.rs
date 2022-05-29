@@ -160,8 +160,9 @@ async fn main() -> std::io::Result<()> {
     if server_addr.starts_with("unix:") {
         #[cfg(unix)]
         {
-            fs::set_permissions("/path", fs::Permissions::from_mode(0o655)).unwrap();
-            let srv = server.bind_uds(server_addr[5..].to_string())?;
+            let unix_path = server_addr[5..].to_string();
+            let srv = server.bind_uds(unix_path)?;
+            fs::set_permissions(unix_path, fs::Permissions::from_mode(0o655)).unwrap();
             return srv.run().await;
         }
         #[cfg(not(unix))]
